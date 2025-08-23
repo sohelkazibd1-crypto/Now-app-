@@ -1,0 +1,2 @@
+ADMIN_TOKEN = "sa44dd76am30s8o4b2u3j2mi10miEhan"
+BOT_TOKEN = "8433024749:AAE8sjKTbwjq6oyaPkhnrvG0ZagCfuhWDNA"
