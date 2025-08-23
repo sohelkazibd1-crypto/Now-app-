@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        button { padding: 10px 20px; border: none; border-radius: 5px; background: #4CAF50; color: white; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Welcome to Telegram Mini App</h1>
+        <p>Balance: $<span id="balance">0.00</span></p>
+        <p>Level: <span id="level">0</span></p>
+        <button onclick="upgradeLevel()">Upgrade Level</button>
+    </div>
+
+    <div class="card">
+        <h2>Deposit / Withdraw</h2>
+        <input type="number" id="amount" placeholder="Amount">
+        <button onclick="deposit()">Deposit</button>
+        <button onclick="withdraw()">Withdraw</button>
+    </div>
+
+    <div class="card">
+        <h2>Transaction History</h2>
+        <ul id="transactions">
+            <!-- Transactions will appear here -->
+        </ul>
+    </div>
+
+    <script>
+        let balance = 0;
+        let level = 0;
+        let transactions = [];
+
+        function upgradeLevel() {
+            if(balance >= 10) { // উদাহরণ, 10$ দেইলে level 1 হবে
+                level++;
+                balance -= 10;
+                addTransaction('Level Upgrade', 10);
+                updateUI();
+                alert('Level upgraded!');
+            } else {
+                alert('Not enough balance to upgrade level!');
+            }
+        }
+
+        function deposit() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            if(amount > 0) {
+                balance += amount;
+                addTransaction('Deposit', amount);
+                updateUI();
+                alert('Deposit successful!');
+            }
+        }
+
+        function withdraw() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            if(amount > 0 && amount <= balance) {
+                balance -= amount;
+                addTransaction('Withdraw', amount);
+                updateUI();
+                alert('Withdraw request submitted!');
+            } else {
+                alert('Invalid withdraw amount!');
+            }
+        }
+
+        function addTransaction(type, amount) {
+            const now = new Date();
+            transactions.push({type, amount, date: now.toLocaleString()});
+            const li = document.createElement('li');
+            li.textContent = `${type} - $${amount} - ${now.toLocaleString()}`;
+            document.getElementById('transactions').appendChild(li);
+        }
+
+        function updateUI() {
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            document.getElementById('level').textContent = level;
+        }
+    </script>
+
+</body>
+</html>
